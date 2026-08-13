@@ -1,9 +1,9 @@
-# pbg-opencor
+# viva-opencor
 
 Process-bigraph wrappers for **OpenCOR / CellML**, backed by
 [libOpenCOR](https://opencor.ws). This is the CellML counterpart to the
-SBML-focused [`pbg-copasi`](https://github.com/vivarium-collective/pbg-copasi)
-and [`pbg-tellurium`](https://github.com/vivarium-collective/pbg-tellurium)
+SBML-focused [`viva-copasi`](https://github.com/vivarium-collective/viva-copasi)
+and [`viva-tellurium`](https://github.com/vivarium-collective/viva-tellurium)
 wrappers: it lets **Physiome Model Repository** CellML models run inside a
 process-bigraph composite, with SUNDIALS (CVODE / KINSOL) doing the
 integration.
@@ -37,7 +37,7 @@ uv pip install -e ".[dev]"     # editable, from a clone
 
 ```python
 from process_bigraph import Composite, gather_emitter_results
-from pbg_opencor.composites import make_opencor_utc_document, register_opencor
+from viva_opencor.composites import make_opencor_utc_document, register_opencor
 
 core = register_opencor()
 
@@ -56,7 +56,7 @@ print(result["time"][:3], result["state"].keys())
 
 ```python
 from process_bigraph import allocate_core
-from pbg_opencor.processes import OpenCORUTCStep
+from viva_opencor.processes import OpenCORUTCStep
 
 core = allocate_core(); core.register_link("OpenCORUTCStep", OpenCORUTCStep)
 # model_source accepts a path OR a URL (libOpenCOR fetches it via libcurl):
@@ -73,7 +73,7 @@ variables) runs unmodified through this wrapper.
 
 ## Composite specs
 
-Two declarative `*.composite.yaml` specs ship in `pbg_opencor/composites/` and
+Two declarative `*.composite.yaml` specs ship in `viva_opencor/composites/` and
 are discovered by the dashboard's composite explorer once the package is
 installed in a workspace:
 
@@ -83,7 +83,7 @@ installed in a workspace:
 | `van-der-pol` | `OpenCORUTCStep` | Van der Pol oscillator |
 
 ```python
-from pbg_opencor.composites import build_composite, list_composite_specs
+from viva_opencor.composites import build_composite, list_composite_specs
 print(list_composite_specs())                 # ['decay', 'van-der-pol']
 sim = build_composite("van-der-pol", overrides={"end_time": 20.0})
 sim.run(1.0)

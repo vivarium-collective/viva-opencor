@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from process_bigraph import Composite, gather_emitter_results
 
-from pbg_opencor.composites import (
+from viva_opencor.composites import (
     make_opencor_document,
     make_opencor_utc_document,
     register_opencor,

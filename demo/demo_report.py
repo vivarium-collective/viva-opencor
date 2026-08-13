@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 
 from process_bigraph import Composite, gather_emitter_results
-from pbg_opencor.composites import build_composite
+from viva_opencor.composites import build_composite
 
 HERE = Path(__file__).resolve().parent
 
@@ -60,11 +60,11 @@ def main() -> int:
 
     html = (
         "<!doctype html><html><head><meta charset='utf-8'>"
-        "<title>pbg-opencor demo</title>"
+        "<title>viva-opencor demo</title>"
         "<script src='https://cdn.plot.ly/plotly-2.27.0.min.js'></script>"
         "<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;"
         "padding:0 1rem;color:#222}h1{font-size:1.4rem}p{color:#555}</style></head><body>"
-        "<h1>pbg-opencor — CellML models via libOpenCOR</h1>"
+        "<h1>viva-opencor — CellML models via libOpenCOR</h1>"
         "<p>Two CellML models run through the OpenCOR process-bigraph wrappers, "
         "integrated by SUNDIALS CVODE. Everything below is computed by the real "
         "libOpenCOR engine.</p>"

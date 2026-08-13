@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pbg-opencor"
+name = "viva-opencor"
 version = "0.1.0"
 description = "process-bigraph-compatible OpenCOR / CellML Steps and Processes (UTC + SteadyState) via libOpenCOR"
 readme = "README.md"
@@ -31,7 +31,7 @@ dev = ["pytest", "bigraph-viz", "matplotlib", "plotly"]
 viva-superpowers = { git = "https://github.com/vivarium-collective/viva-superpowers.git", branch = "main" }
 
 [tool.setuptools.packages.find]
-include = ["pbg_opencor*"]
+include = ["viva_opencor*"]
 
 [tool.setuptools.package-data]
-"pbg_opencor.composites" = ["*.cellml", "*.yaml"]
+"viva_opencor.composites" = ["*.cellml", "*.yaml"]

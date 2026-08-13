@@ -1,4 +1,4 @@
-"""Visualization Step subclasses for pbg-opencor.
+"""Visualization Step subclasses for viva-opencor.
 
 Visualizations follow the pbg-superpowers convention: each subclass overrides
 ``update()`` to consume per-step state via wires (like an Emitter), accumulates

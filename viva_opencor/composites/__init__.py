@@ -23,7 +23,7 @@ import yaml
 from process_bigraph import allocate_core
 from process_bigraph.emitter import RAMEmitter
 
-from pbg_opencor.processes import (
+from viva_opencor.processes import (
     OpenCORProcess,
     OpenCORUTCStep,
     OpenCORSteadyStateStep,
@@ -146,13 +146,13 @@ def register_opencor(core=None):
     state-time-series Visualization registered."""
     if core is None:
         core = allocate_core()
-    from pbg_opencor.types import register_opencor_types
+    from viva_opencor.types import register_opencor_types
     register_opencor_types(core)
     core.register_link('OpenCORProcess', OpenCORProcess)
     core.register_link('OpenCORUTCStep', OpenCORUTCStep)
     core.register_link('OpenCORSteadyStateStep', OpenCORSteadyStateStep)
     core.register_link('ram-emitter', RAMEmitter)
-    from pbg_opencor.visualizations import StateTimeSeriesPlots
+    from viva_opencor.visualizations import StateTimeSeriesPlots
     core.register_link('StateTimeSeriesPlots', StateTimeSeriesPlots)
     return core
 

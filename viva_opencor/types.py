@@ -1,4 +1,4 @@
-"""Custom bigraph-schema types for pbg-opencor.
+"""Custom bigraph-schema types for viva-opencor.
 
 Currently uses built-in types (map[float], any, maybe, ...) only. This hook
 exists for future custom type registrations — e.g. unit-bearing CellML

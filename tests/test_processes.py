@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 from process_bigraph import allocate_core
 
-from pbg_opencor.processes import (
+from viva_opencor.processes import (
     OpenCORProcess,
     OpenCORUTCStep,
     OpenCORSteadyStateStep,
