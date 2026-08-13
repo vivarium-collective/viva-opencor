@@ -1,0 +1,69 @@
+name: van-der-pol
+description: "OpenCOR / CellML one-shot uniform time course: integrates the Van der Pol oscillator (a stiff nonlinear ODE) over a full horizon with libOpenCOR's CVODE and emits the whole trajectory as arrays. Demonstrates the OpenCORUTCStep."
+tags: [physiome, cellml, opencor, oscillator, demo]
+
+requires:
+  processes: [OpenCORUTCStep, RAMEmitter]
+
+parameters:
+  model_string:
+    type: string
+    default: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <model xmlns="http://www.cellml.org/cellml/2.0#" name="van_der_pol">
+        <component name="main">
+          <variable name="t" units="dimensionless"/>
+          <variable name="x" units="dimensionless" initial_value="1"/>
+          <variable name="y" units="dimensionless" initial_value="0"/>
+          <variable name="mu" units="dimensionless" initial_value="1"/>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply><eq/>
+              <apply><diff/><bvar><ci>t</ci></bvar><ci>x</ci></apply>
+              <ci>y</ci>
+            </apply>
+            <apply><eq/>
+              <apply><diff/><bvar><ci>t</ci></bvar><ci>y</ci></apply>
+              <apply><minus/>
+                <apply><times/><ci>mu</ci>
+                  <apply><times/>
+                    <apply><minus/><cn cellml:units="dimensionless" xmlns:cellml="http://www.cellml.org/cellml/2.0#">1</cn><apply><power/><ci>x</ci><cn cellml:units="dimensionless" xmlns:cellml="http://www.cellml.org/cellml/2.0#">2</cn></apply></apply>
+                    <ci>y</ci>
+                  </apply>
+                </apply>
+                <ci>x</ci>
+              </apply>
+            </apply>
+          </math>
+        </component>
+      </model>
+    description: "Inline CellML 2.0 model source."
+  end_time:
+    type: float
+    default: 20.0
+    description: "Simulation end time."
+  number_of_steps:
+    type: int
+    default: 400
+    description: "Number of output points minus one."
+
+state:
+  utc:
+    _type: step
+    address: "local:OpenCORUTCStep"
+    config:
+      model_string: "${model_string}"
+      end_time: "${end_time}"
+      number_of_steps: "${number_of_steps}"
+    inputs: {}
+    outputs:
+      result: ["utc_results", "result"]
+  utc_results:
+    result: {}
+  emitter:
+    _type: step
+    address: "local:RAMEmitter"
+    config:
+      emit:
+        result: "numeric_result"
+    inputs:
+      result: ["utc_results", "result"]

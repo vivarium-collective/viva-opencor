@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.cellml.org/cellml/2.0#" name="decay">
+  <component name="main">
+    <variable name="t" units="dimensionless"/>
+    <variable name="x" units="dimensionless" initial_value="10"/>
+    <variable name="a" units="dimensionless" initial_value="0.5"/>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <apply><eq/>
+        <apply><diff/><bvar><ci>t</ci></bvar><ci>x</ci></apply>
+        <apply><minus/><apply><times/><ci>a</ci><ci>x</ci></apply></apply>
+      </apply>
+    </math>
+  </component>
+</model>

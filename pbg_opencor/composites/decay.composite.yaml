@@ -1,0 +1,60 @@
+name: decay
+description: "OpenCOR / CellML time-driven bridge: integrates a first-order decay CellML model (dx/dt = -a*x) with libOpenCOR's CVODE, one interval per step, and emits the state variables each step. Demonstrates the OpenCORProcess bridge."
+tags: [physiome, cellml, opencor, ode, demo]
+
+requires:
+  processes: [OpenCORProcess, RAMEmitter]
+
+parameters:
+  model_string:
+    type: string
+    default: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <model xmlns="http://www.cellml.org/cellml/2.0#" name="decay">
+        <component name="main">
+          <variable name="t" units="dimensionless"/>
+          <variable name="x" units="dimensionless" initial_value="10"/>
+          <variable name="a" units="dimensionless" initial_value="0.5"/>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply><eq/>
+              <apply><diff/><bvar><ci>t</ci></bvar><ci>x</ci></apply>
+              <apply><minus/><apply><times/><ci>a</ci><ci>x</ci></apply></apply>
+            </apply>
+          </math>
+        </component>
+      </model>
+    description: "Inline CellML 2.0 model source."
+  ode_solver:
+    type: string
+    default: "cvode"
+    description: "ODE solver: cvode, euler, heun, rk2, rk4."
+
+state:
+  opencor:
+    _type: process
+    address: "local:OpenCORProcess"
+    config:
+      model_string: "${model_string}"
+      ode_solver: "${ode_solver}"
+    interval: 1.0
+    inputs: {}
+    outputs:
+      state: ["stores", "state"]
+      rates: ["stores", "rates"]
+      time: ["stores", "time"]
+  stores:
+    state: {}
+    rates: {}
+    time: 0.0
+  emitter:
+    _type: step
+    address: "local:RAMEmitter"
+    config:
+      emit:
+        state: "map[float]"
+        rates: "map[float]"
+        time: "float"
+    inputs:
+      state: ["stores", "state"]
+      rates: ["stores", "rates"]
+      time: ["stores", "time"]

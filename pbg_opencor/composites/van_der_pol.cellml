@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.cellml.org/cellml/2.0#" name="van_der_pol">
+  <component name="main">
+    <variable name="t" units="dimensionless"/>
+    <variable name="x" units="dimensionless" initial_value="1"/>
+    <variable name="y" units="dimensionless" initial_value="0"/>
+    <variable name="mu" units="dimensionless" initial_value="1"/>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <apply><eq/>
+        <apply><diff/><bvar><ci>t</ci></bvar><ci>x</ci></apply>
+        <ci>y</ci>
+      </apply>
+      <apply><eq/>
+        <apply><diff/><bvar><ci>t</ci></bvar><ci>y</ci></apply>
+        <apply><minus/>
+          <apply><times/><ci>mu</ci>
+            <apply><times/>
+              <apply><minus/><cn cellml:units="dimensionless" xmlns:cellml="http://www.cellml.org/cellml/2.0#">1</cn><apply><power/><ci>x</ci><cn cellml:units="dimensionless" xmlns:cellml="http://www.cellml.org/cellml/2.0#">2</cn></apply></apply>
+              <ci>y</ci>
+            </apply>
+          </apply>
+          <ci>x</ci>
+        </apply>
+      </apply>
+    </math>
+  </component>
+</model>
