@@ -52,24 +52,28 @@ result = gather_emitter_results(sim)[("emitter",)][-1]["result"]
 print(result["time"][:3], result["state"].keys())
 ```
 
-### Running a real Physiome model
+### Running a model by path or URL
+
+`model_source` is handed straight to `libopencor.File(...)`, so it accepts a
+local path **or** a remote URL — including a Physiome Model Repository raw
+CellML URL, which libOpenCOR resolves on load:
 
 ```python
-from process_bigraph import allocate_core
+from viva_opencor.composites import register_opencor
 from viva_opencor.processes import OpenCORUTCStep
 
-core = allocate_core(); core.register_link("OpenCORUTCStep", OpenCORUTCStep)
-# model_source accepts a path OR a URL (libOpenCOR fetches it via libcurl):
+core = register_opencor()
 step = OpenCORUTCStep(config={
-    "model_source": "https://models.physiomeproject.org/workspace/4e4/@@rawfile/"
-                    "<hash>/ohara_rudy_cipa_v1_2017.cellml",
+    "model_source": "<path-or-raw-PMR-url>.cellml",
     "end_time": 1000.0, "number_of_steps": 1000}, core=core)
 traj = step.update({})["result"]
-V = traj["state"]["membrane/v"]               # cardiac action potential, mV
+# traj = {"time", "state", "rates", "variables", "constants"},
+# each variable keyed by its "component/variable" CellML name.
 ```
 
-The O'Hara-Rudy CiPA 2017 cardiac model (49 state variables, 256 computed
-variables) runs unmodified through this wrapper.
+If the CellML fails to load or analyse (unresolved imports, non-ODE model,
+solver failure) the wrapper raises a `RuntimeError` carrying libOpenCOR's own
+diagnostics rather than returning garbage.
 
 ## Composite specs
 
@@ -133,3 +137,11 @@ faithful continuation and composable with sibling processes.
 ```bash
 pytest -q          # 16 tests, all offline against bundled CellML fixtures
 ```
+
+## Links
+
+- Repository: https://github.com/vivarium-collective/viva-opencor
+- OpenCOR / libOpenCOR: https://opencor.ws
+- Physiome Model Repository: https://models.physiomeproject.org
+- SBML siblings: [`viva-copasi`](https://github.com/vivarium-collective/viva-copasi) ·
+  [`viva-tellurium`](https://github.com/vivarium-collective/viva-tellurium)
